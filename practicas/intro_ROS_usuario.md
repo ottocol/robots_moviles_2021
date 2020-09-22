@@ -22,7 +22,7 @@ ROS está integrado con diversos simuladores. Nosotros usaremos dos distintos:
 - **Stage**: es un simulador 2D, útil porque consume pocos recursos y es suficiente para ciertos casos. Por ejemplo un robot cuyo sensor principal sea un láser o un anillo de sonares básicamente obtiene información 2D del mundo.
 - **Gazebo**: es un simulador multirobot de entornos 3D, mucho más realista que stage, aunque también consume muchos más recursos computacionales.
 
-### Stage
+### El simulador Stage
 
 Para ejecutar el simulador necesitamos un fichero de definición de mundo en el que se especifique cómo es el entorno (dimensiones, paredes, obstáculos) y el robot (dimensiones físicas y sensores). En la web de la asignatura podéis descargar un ejemplo de mundo en un zip que hay que descomprimir. 
 
@@ -37,12 +37,55 @@ rosrun stage_ros stageros ejemplo.world
 
 Debería aparecer una ventana 2D con el mundo simulado. Si veis el `ejemplo.pgm` notaréis que es realmente el mapa del mundo. En el `.world` se especifican sus dimensiones en metros y las del robot junto con los parámetros físicos del robot y de los sensores.
 
-Por supuesto un robot no ve directamente el entorno, sea real o simulado, sino que lo percibe indirectamente a través de sus *sensores*. Como todo en ROS, la información de los sensores es accesible a través de ciertos *topics* en los que Stage publica la información. Si hacemos
+#### Viendo topics en modo texto
+
+Por supuesto un robot no ve directamente el entorno, sea real o simulado, sino que lo percibe indirectamente a través de sus *sensores*. Como todo en ROS, la información de los sensores es accesible a través de ciertos *topics* en los que Stage publica la información. Abre una terminal aparte (para que el simulador siga ejecutándose en la anterior) y escribe:
 
 ```bash
 rostopic list
 ```
-Veremos una lista de *topics* publicados, de entre los que `/base_scan` es el sensor de rango del robot. En el `.world` se configura un único sensor de tipo *laser scan* que da las distancias a los objetos más cercanos en un sector de 270 grados. Podemos ver la información en modo numérico en la terminal con 
+Veremos una lista de *topics* publicados. Por ejemplo `/odom` es la odometría del robot, un sensor que nos dice en qué coordenadas se encuentra con respecto al punto inicial del que partió. Como todavía el robot no se ha movido, si imprimes los mensajes de este *topic* deben indicar que está en la posición `0,0,0)`. Pruébalo con:
+
+```bash
+#con el -n 1 imprimimos solo un mensaje 
+#para que no se nos llene la pantalla de datos
+rostopic echo /odom -n 1
+```
+#### Viendo el  grafo de nodos con `rqt_graph`
+
+Para ver la información de modo gráfico puedes usar la orden `rqt_graph`. Pruébala, verás que solo aparece un nodo, para que aparezca el resto como en la siguiente figura tendrás que:
+
+- En el desplegable donde pone `Nodes only` cambiarlo por `Nodes/topics (all)` y darle al botón de recargar (con la flecha circular) 
+- En la opción de `Hide` desmarcar las casillas `Dead sinks` y `Leaf Topics`, así puedes ver los nodos que reciben pero no publican mensajes y los que publican pero no reciben, respectivamente
+
+![](rqt_graph.png)
+
+#### Publicando *topics* manualmente
+
+En el grafo de nodos y *topics* habrás visto un *topic* llamado `/cmd_vel`. En este *topic* están escuchando los "motores" del robot, y si publicamos en él estaremos por tanto moviéndolo. En la terminal ejecuta:
+
+```bash
+rostopic info /cmd_vel
+```
+Para ver de qué tipo es el *topic*. Verás que nos dice quién lo publica, quién  está suscrito y de qué tipo es el mensaje. En ROS hay una serie de tipos de mensajes predefinidos y también  el programador se puede definir los suyos propios. En nuestro caso el tipo es `geometry_msgs/Twist`. Ahora para ver información sobre qué datos componen un mensaje de ese tipo, escribe en la terminal:
+
+```bash
+rosmsg show geometry_msgs/Twist
+```
+
+verás que te dice que un mensaje de este tipo está compuesto de 2 vectores 3D con componentes llamados `x`, `y`, `z`. El primer vector se llama `linear` y representa la velocidad lineal y el segundo `angular` y como es lógico representa la velocidad angular.
+
+Normalmente se haría por código pero también podemos mover al robot publicando mensajes de manera manual. Prueba:
+
+```bash
+rostopic pub -r 10 /cmd_vel geometry_msgs/Twist  '{linear:  {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'
+```
+
+El `-r 10` lo que hará es publicar el mensaje 10 veces por segundo. Verás que el robot empieza a moverse hacia el frente (eje X) a una velocidad de 0.2 m/s. El comando se quedará ejecutando (y el robot moviéndose, si no choca) hasta que pulses `Ctrl-C` para pararlo.
+
+#### Viendo topics en modo gráfico: la herramienta RViz
+
+Entre los topics que publica el simulador, `/base_scan` es el sensor de rango del robot. En el `.world` de ejemplo se define un sensor de tipo *laser scan* que da las distancias a los objetos más cercanos en un sector de 270 grados. Podemos ver la información en modo numérico en la terminal con 
 
 ```bash
 rostopic echo /base_scan
@@ -54,11 +97,11 @@ No obstante ver impresa la lista de números con las distancias no es muy intuit
 rosrun rviz rviz
 ```
 
-Al entrar en `rviz` lo primero es **cambiar en el panel izquierdo la opción `fixed frame` en las `Global Options`**. Este es el sistema de coordenadas que usará `rviz` para dibujar. Ahora está puesto a `map` y da un error porque eso sería para un mapa construido por el robot, cosa que no se ha hecho (lo haremos en la práctica 2). Lo podéis cambiar por cualquiera de las otras opciones que sale al seleccionar el desplegable a la derecha de `fixed frame`, por ejemplo `odom`.
+Al entrar en `rviz` lo primero es **cambiar en el panel izquierdo la opción `fixed frame` en las `Global Options`**. Este es el sistema de coordenadas que usará `rviz` para dibujar. Ahora está puesto a `map` y da un error porque eso sería para un mapa construido por el robot, cosa que no se ha hecho (lo haremos en una práctica posterior). Lo podéis cambiar por cualquiera de las otras opciones que sale al seleccionar el desplegable a la derecha de `fixed frame`, por ejemplo `odom`.
 
-Podemos visualizar el sensor de rango añadiendo un nuevo *display* de tipo *Laserscan* (botón `Add` de la parte inferior del panel izquierdo). Una vez añadido hay que cambiar la opción `topic` para que se corresponda con el que está publicando el robot, en este caso `base_scan`. Debería aparecer dibujado en rojo el entorno que rodea al robot
+Podemos visualizar el sensor de rango añadiendo un nuevo *display* de tipo *Laserscan* (botón `Add` de la parte inferior del panel izquierdo). Una vez añadido hay que cambiar la opción `topic` para que se corresponda con el que está publicando el robot, en este caso `base_scan`. Debería aparecer dibujado en rojo el entorno que rodea al robot.
 
-### Gazebo
+### El simulador Gazebo
 
 [Gazebo](http://gazebosim.org) es un simulador 3D mucho más avanzado que Stage, y es el que necesitaremos para poder simular sensores como cámaras o cámaras RGBD (que detectan la profundidad, tipo kinect) o simular efectos físicos como `choques` o empujar objetos.
 
