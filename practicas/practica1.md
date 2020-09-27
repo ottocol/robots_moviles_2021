@@ -6,8 +6,8 @@
 
 Como idea sencilla podéis mirar las lecturas que apuntan más o menos a la derecha y las que apuntan más o menos a la izquierda (en lugar de tomar una sola podéis coger la media de varias que estén en un ángulo similar). Si las lecturas de la izquierda son menores que las de la derecha hay que girar hacia la derecha, y viceversa. Podéis añadir mejoras, como por ejemplo:
 
- - que la velocidad de giro sea mayor si la diferencia entre izquierda y derecha es mayor
- - que la velocidad lineal sea proporcional a la distancia al obstáculo más cercano
+ - Que la velocidad de giro sea mayor si la diferencia entre izquierda y derecha es mayor
+ - Que la velocidad lineal sea proporcional a la distancia al obstáculo más cercano
  - ...cualquier otra idea que se os ocurra
 
 **IMPORTANTE**: el código debería funcionar para cualquier sensor de rango 2D independientemente del número de lecturas y del ángulo de visión del sensor. Únicamente debéis suponer que el ángulo de visión tiene su punto medio en el frente (con lo que la lectura del medio del array será lo que tiene el robot justo enfrente). **Haced el código lo bastante  genérico para que aunque cambie el número de lecturas y el ángulo de visión del sensor, el programa no dé error**, aunque es posible que si el sensor cambia demasiado tengáis que reajustar parámetros en el algoritmo.
@@ -33,4 +33,4 @@ Tenéis que entregar:
 - **Hasta un 6**: código entregado y documentado (con comentarios al fuente) y una explicación breve  de cuál es la idea básica de vuestro algoritmo
 - **Hasta un 7**: todo lo anterior más 2 pruebas documentadas: una en stage y otra en gazebo
 - **Hasta un 8**: todo lo anterior más pruebas documentadas en al menos otro entorno de stage y otro de gazebo, que sean diferentes a los anteriores (p.ej. pocos obstáculos vs muchos)
-- **Hasta un 10**: todo lo anterior más buscar otro algoritmo de evitación de obstáculos ya implementado en ROS, explicar a grandes rasgos (hasta 1 página) cómo funcionan, probarlos y compararlos con el vuestro. Si no encontráis en ROS o no los podéis  hacer funcionar, buscad otros aunque será más complicado hacer la comparación.
+- **Hasta un 10**: todo lo anterior más buscar otro algoritmo de evitación de obstáculos ya implementado en ROS (o en otra plataforma), explicar a grandes rasgos (hasta 1 página) cómo funciona, probarlo y compararlo con el vuestro (1-2 páginas más). Si no encontráis ninguno que consigáis hacer funcionar en ROS, probadlo en un entorno lo más similar posible a los que uséis en stage o gazebo.
