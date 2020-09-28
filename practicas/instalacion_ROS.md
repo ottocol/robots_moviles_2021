@@ -41,7 +41,7 @@ Yo os recomiendo **Kinetic** porque es el mismo  de los laboratorios y tiene mej
 
 - **Ventajas**: mejor rendimiento
 - **Desventajas**: salvo ROS Kinetic las otras versiones de ROS tienen un soporte pobre para los robots del laboratorio, los Turtlebot
-- [Instrucciones para Ubuntu 16.04 + ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
+- [Instrucciones para Ubuntu 16.04 + ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu).
 - [Instrucciones para Ubuntu 18.04 + ROS Melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)
 - [Instrucciones para Ubuntu 20.04 + ROS Noetic](http://wiki.ros.org/noetic/Installation/Ubuntu). Noetic es un cambio más grande que Melodic, en gran medida porque usa Python 3 en lugar de 2, así que prácticamente nada del código que hagas para Noetic te va a funcionar en versiones inferiores
 
@@ -51,3 +51,21 @@ Hay varios servicios "en la nube" donde puedes ejecutar ROS sin instalar nada en
 
 - [ROS Development Studio](http://rds.theconstructsim.com/), de TheConstructSim: es el único que conozco que es **gratuito**, aunque no permite tener el código privado, por lo que no te serviría para hacer todas las prácticas (tendrías que crear y borrar el proyecto cada vez si no quieres que se quede público), pero sí para trabajar algún día aislado. También tienen planes de pago que permiten código privado y mejores máquinas virtuales con más rendimiento.
 - En Azure o AWS puedes ejecutar máquinas virtuales con ROS preinstalado, aunque son servicios de pago. No obstante estos sitios tienen cuentas con crédito gratuito para estudiantes
+
+## Instalar soporte para los robots
+
+Además de ROS en sí, necesitarás soporte para poder simular algún tipo de robot. Se recomienda el soporte de Turtlebot2 por ser los robots que tenemos en el laboratorio, pero en caso de no ser posible podrías usar cualquier otro simulador de robot móvil que tengas en la distribución de ROS elegida:
+
+### Soporte para Turtlebot 2 en Kinetic
+
+> La máquina de VMWare de la asignatura **ya tiene instalado** este soporte
+
+Teclea en la terminal (te pedirá la contraseña de superusuario):
+
+```bash
+sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-ar-track-alvar-msgs
+```
+
+### Soporte para Turtlebot 2 en Melodic
+
+En [https://github.com/gaunthan/Turtlebot2-On-Melodic](https://github.com/gaunthan/Turtlebot2-On-Melodic) tienes instrucciones de cómo instalarlo. (Debería funcionar, pero no lo he probado personalmente).
