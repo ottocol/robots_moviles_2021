@@ -7,7 +7,7 @@
 Como idea sencilla podéis mirar las lecturas que apuntan más o menos a la derecha y las que apuntan más o menos a la izquierda (en lugar de tomar una sola podéis coger la media de varias que estén en un ángulo similar). Si las lecturas de la izquierda son menores que las de la derecha hay que girar hacia la derecha, y viceversa. Podéis añadir mejoras, como por ejemplo:
 
  - Que la velocidad de giro sea mayor si la diferencia entre izquierda y derecha es mayor
- - Que la velocidad lineal sea proporcional a la distancia al obstáculo más cercano
+ - Que la velocidad lineal sea proporcional a la distancia al obstáculo más cercano º
  - ...cualquier otra idea que se os ocurra
 
 **IMPORTANTE**: el código debería funcionar para cualquier sensor de rango 2D independientemente del número de lecturas y del ángulo de visión del sensor. Únicamente debéis suponer que el ángulo de visión tiene su punto medio en el frente (con lo que la lectura del medio del array será lo que tiene el robot justo enfrente). **Haced el código lo bastante  genérico para que aunque cambie el número de lecturas y el ángulo de visión del sensor, el programa no dé error**, aunque es posible que si el sensor cambia demasiado tengáis que reajustar parámetros en el algoritmo.
@@ -18,7 +18,7 @@ Esta práctica se debe desarrollar **individualmente**.
 
 > Podéis compartir con vuestros compañeros las ideas de cómo funciona el algoritmo (y de hecho si lo discutís y os dais ideas entre vosotros será más enriquecedor) pero el código Python o C++ debería ser exclusivamente vuestro. Sería recomendable que si habéis colaborado en el desarrollo del algoritmo os referenciéis unos a otros en la documentación entregada ("la idea del algoritmo ha surgido en colaboración con XXX e YYY...")
 
-La práctica se entregará a través de moodle. El plazo de entrega concluye el **martes 13 de octubre a las 23:59**
+La práctica se entregará a través de moodle. El plazo de entrega concluye el ~~**martes 13 de octubre a las 23:59**~~ **martes 20 de octubre a las 23:59**
 
 Tenéis que entregar:
 
