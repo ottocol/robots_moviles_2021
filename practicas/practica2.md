@@ -2,9 +2,12 @@
 
 En esta práctica vamos a trabajar con varios algoritmos de localización y mapeado de robots móviles que iremos viendo en las sesiones teóricas.
 
-La práctica tiene varias partes: para los requisitos mínimos no es necesario que escribáis código, solo que probéis las funcionalidades ya implementadas en ROS. Para la mayoría de las partes optativas tendréis que escribir algo de código.
+La práctica tiene varias partes: para los requisitos mínimos no es necesario que escribáis código, solo que probéis las funcionalidades ya implementadas en ROS. Para la mayoría de las partes adicionales tendréis que escribir algo de código.
 
-> Para realizar las dos primeras partes tendréis que consultar documentación adicional. Podéis consultar por ejemplo los capítulos 9 y 10 del libro *"Programming Robots with ROS"*, de Quigley, Gerkey y Smart, ed. O'Reilly, 2015. Podéis [consultarlo *online*](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) por medio de los servicios de la biblioteca de la UA. No obstante podéis usar cualquier otro libro y/o tutoriales, videos, artículos, cursos ...que podáis encontrar en Internet. A través de la propia biblioteca hay disponibles muchos otros [libros en formato electrónico](https://ua.on.worldcat.org/search?databaseList=1953%2C1931%2C1875%2C1941%2C2259%2C2237%2C3313%2C2375%2C239%2C2570%2C638%2C2260&queryString=ros+robots&clusterResults=true) sobre ROS.
+> Se os da una plantilla hecha en Python para que os sirva como base. Podéis implementar las partes adicionales en C++ o en el lenguaje que queráis pero tendréis que apañároslas para conseguir un resultado similar (podéis crear los gráficos con Matlab o como queráis siempre que los datos hayan sido generados por vuestro código).
+
+Para realizar los requisitos mínimos tendréis que consultar referencias adicionales, aquí no se va a explicar cómo crear mapas y localizarse en ROS ya que la idea es que encontréis la información vosotros mismos. No obstante en el [apéndice 1](#apendice_1) tenéis un par de referencias.
+
 
 ## Parte 1: Construcción de mapas del entorno (requisito mínimo)
 
@@ -13,12 +16,15 @@ En esta primera parte de la práctica nos centraremos en la generación de mapas
 Para el manejo del robot puedes utilizar un nodo para la teleoperación del robot mediante teclado, o también puedes usar el código de la práctica 1 para mover el robot.
 
 Prueba el mapeado como mínimo en un mundo de stage y uno de gazebo. Recuerda que el sensor simulado en Gazebo tiene mucha menos resolución y campo de visión que el simulado en stage. Pon en la documentación los mapas obtenidos y comenta los resultados: 
-- ¿podrías decir qué resolución tienen los mapas obtenidos? (está en el fichero del mapa, busca en internet dónde aparece esa información)
+
+- ¿Podrías decir qué resolución tienen los mapas obtenidos? (está en el fichero del mapa, busca en internet dónde aparece esa información)
 - ¿Qué tal funciona el algoritmo con el laser simulado y con la kinect simulada, hay diferencias?
 - ¿Crees que hay cierto tipo de entornos en los que funciona mejor? (espacios abiertos, espacios pequeños, pasillos,...)
 - El algoritmo de mapeado tiene una serie de parámetros, intenta hacer varias pruebas variando alguno de ellos para ver si eres capaz de deducir cómo influyen.
  
-Para poder repetir una misma prueba variando los parámetros del algoritmo podéis grabar los datos de los sensores en un fichero  `rosbag`. Este `rosbag` se puede "reproducir" posteriormente las veces que haga falta como si fuera información que el robot está recibiendo "en vivo", pudiéndose así repetir un experimento varias veces con los mismos datos de entrada.
+Para poder repetir una misma prueba variando los parámetros del algoritmo podéis grabar los datos de los sensores en un fichero  `rosbag`. Este `rosbag` se puede "reproducir" posteriormente las veces que haga falta como si fuera información que el robot está recibiendo "en vivo", pudiéndose así repetir un experimento varias veces con los mismos datos de entrada. Tenéis explicado el uso de `rosbag` en el [apéndice 2](#apendice_2)
+
+> En `rosbag` si no quieres grabar todos los *topics* para ocupar menos espacio, asegúrate en Stage de grabar como mínimo el *topic* del laser (mira antes si es `/scan` o `/base_scan`) y además `/tf` (para que el algoritmo de mapeado pueda hacer la transformación de coordenadas). En Gazebo además tendrás que grabar `/tf_static`
 
 ## Parte 2: Localización (requisito mínimo)
 
@@ -30,10 +36,57 @@ Prueba la localización como mínimo en un mundo de stage y uno de gazebo. Expli
 
 ## Parte 3: Modelo de error del movimiento (requisito adicional, hasta 1 punto)
 
+> Este apartado no podrás realizarlo hasta ver la teoría del 21 de octubre, donde explicaremos este modelo
 
+Implementa el modelo de error basado en la odometría del robot y que usa muestras, que vimos en clase. El programa dibujará por pantalla la posición de las muestras en cada paso para una secuencia de movimientos del robot dada por las posiciones medidas por la odometría. El resultado será algo similar a esto:
+
+![](recursos_prac2/ejemplo_modelo_movimiento.png) 
+
+Para llevar a cabo la implementación podeis utilizar [la plantilla](recursos_prac2/plantilla_practica2.zip) que os proporcionamos. Verás que es un .zip con código Python para que te sirva como punto de partida, y un fichero `.txt` cuyo uso veremos luego. 
+
+En el código la clase `Pose` representa una posible posición del robot (\\(x,y,\theta)\\).
+
+Para llevar a cabo el modelado del error tendrás que implementar las dos funciones principales: `sample_normal_distribution` y `sample_motion_model`
+
+- En la función `sample_normal_distribution(b)` debes devolver una muestra de una distribución normal de media 0 y desviación típica `b`.
+- En la función `sample_motion_model` debes implementar el algoritmo del mismo nombre que vimos en teoría (transparencia 28 del tema 3, parte I). Cuidado, a diferencia del algoritmo de teoría, que tiene como entrada \\(\delta_{rot1}, \delta_{rot2}, \delta_{trans}\\) la función Python recibe la `Pose` medida por la odometría en el instante actual y en el previo. A partir de estas dos `Pose`s puedes calcular los  \\(\delta\\)  (cómo calcularlos en la transparencia 14 del tema 3 parte I).
+
+El programa recibe dos parámetros en línea de comandos:
+
+1. Fichero de odometría: En la plantilla es el fichero `odometria.txt`. Ese fichero contiene las posiciones medidas por la odometría del robot. Cada línea tiene tres números \\( x,y,  \theta\\). Ya se os da implementado código Python que lee estos datos y los coloca en un array de objetos `Pose`
+2. Número de muestras
+
+Un ejemplo de ejecución del programa sería el siguiente:
+
+```bash
+python practica1.py odometria.txt 500
+```
+
+En el código debes ajustar los cuatro parámetros de error que vimos en clase de teoría, \\( \alpha_1, \alpha_2, \alpha_3, \alpha_4\\). Prueba el algoritmo utilizando distintas secuencias de odometría y distintos parámetros de error. Incorpora a la memoria las gráficas generadas y comenta brevemente el resultado obtenido para cada una de las secuencias.
 
 ## Parte 4: Modelo de error del sensor (requisito adicional, hasta 1 punto)
 
+> Este apartado no podrás realizarlo hasta ver la teoría del día 28 de octubre, en la que explicaremos este modelo.
+
+Implementa el modelo del sensor para un sensor basado en landmarks como el que se ha visto en clase, que detecte la distancia y orientación a un landmark. Supondremos resuelto el problema de la asociación de datos. Tendrás que implementar otro fichero .py con una función `sensor_model` de este estilo:
+
+```python
+def sensor_model(pose_robot, pose_landmark, d, alfa):
+    """Devuelve la probabilidad de una medida del sensor, dada
+    una pose del robot, del landmark medido en el mapa, la distancia
+    medida y el ángulo medido
+    Argumentos:
+      pose_robot (Pose): posición actual del robot
+      pose_landmark (Pose): posición en el mapa del landmark detectado
+      d (float): distancia devuelta por el sensor
+      alfa (float): ángulo devuelto por el sensor
+    Devuelve
+      float: probabilidad de la medida
+    """
+    #TODO: falta implementar la función
+    return 0
+```
+Para probarlo haz un programa al que se le pueda pasar 5 argumentos float en línea de comandos con la pose del robot, del landmark, la distancia medida y el ángulo medido (ángulos en grados para que sea más intuitivo) e imprima en la consola la probabilidad.
 
 ## Entrega de la práctica
 
@@ -41,10 +94,10 @@ Prueba la localización como mínimo en un mundo de stage y uno de gazebo. Expli
 
 > Como su nombre indica **los requisitos mínimos deben realizarse obligatoriamente para poder aprobar la práctica**. Del resto de requisitos podéis elegir los que queráis. Tened en cuenta que todos los puntos que se proponen suman más de 10 por lo que no es necesario que los hagáis todos, ya que **en cada práctica no os puedo poner una nota superior al 10**.
 
-- **Requisitos mínimos (hasta un 6)**: realización de las partes 1 y 2 de la práctica en el simulador. La práctica debe estar adecuadamente documentada, respondiendo como mínimo a las preguntas que se plantean y detallando los resultados de todos los experimentos realizados. Probad al menos un par de entornos de los que hay en ROS o que encontréis ya construidos por internet.
-- **(hasta 1 punto adicional)** probar los algoritmos en un mundo simulado construido por vosotros. Intentad construir un mundo que tenga partes sencillas de mapear y partes difíciles o bien un mundo "fácil" y uno "difícil" y intentad explicar por qué le resultan fáciles o difíciles al algoritmo.
+- **Requisitos mínimos (hasta un 6)**: realización de las partes 1 y 2 de la práctica en el simulador. La práctica debe estar adecuadamente documentada, respondiendo como mínimo a las preguntas que se plantean y detallando los resultados de todos los experimentos realizados. 
+- **(hasta 2 puntos adicionales)**: realización de las partes 3 y 4 de la práctica.
+- **(hasta 2 puntos adicionales)**: implementar un algoritmo de localización con filtro de partículas usando las partes 3 y 4 de la práctica. Además de estas partes necesitaréis implementar el algoritmo en sí y un pequeño simulador que simule un robot  moviéndose por un entorno 2D en el que hay landmarks de los que puede detectar distancia y orientación. En cada momento se debe mostrar la diferencia entre la posición simulada y la obtenida por el filtro de partículas. No es necesario que el simulador sea gráfico, podría imprimir simplemente los datos numéricos en la consola.
 - **(hasta 1 punto adicional)** tomar alguna implementación ya existente en internet de un algoritmo de localización o mapeado (sea o no de ROS), examinar el código fuente y detallar su funcionamiento, tanto del código en si (incluir comentarios indicando qué hace cada parte del código) como de las pruebas que  hayáis realizado sobre el mismo. Redactarlo en forma de tutorial para que pueda servir a otros compañeros que quieran probar la implementación y saber cómo funciona.
-- **(hasta 2 puntos adicionales)** implementar cualquiera de los algoritmos de localización que se verán en la asignatura: filtros de partículas (clase teórica del 4 nov), EKF o histogramas (clase teórica del 11 nov). Si se detecta que habéis tomado el código de algún sitio en lugar de escribirlo vosotros implicará el suspenso automático en la práctica. En principio bastará con que lo probéis en un entorno simulado, sea ROS, sea otro simulador o una simulación simplificada que os construyáis vosotros.
 - Cualquier otra idea que se os ocurra relacionada con el mapeado y la localización. Consultad con el profesor para ver cuánto se podría valorar en el baremo.
 
 ### Formato de la documentación 
@@ -57,7 +110,22 @@ La práctica se podrá entregar hasta las 23:59 horas del **martes 24 de Noviemb
 
 La entrega se realizará a través del Moodle de la asignatura.
 
-## Apéndice: uso de `rosbag`
+## <a name="apendice_1">Apéndice 1: Referencias</a>
+
+Para realizar los requisitos mínimos necesitaréis consultar información adicional sobre localización y mapeado en ROS, ya que en clase no vamos a explicarlo.
+
+Si tenéis el simulador de Turtlebot 2 podéis consultar estas referencias (no es obligatorio usarlas, podéis buscar otras):
+
+- Para localización y mapeado en **Stage** los capítulos 9 y 10 del libro *"Programming Robots with ROS"*, de Quigley, Gerkey y Smart, ed. O'Reilly, 2015. Podéis [consultarlo *online*](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) por medio de los servicios de la biblioteca de la UA. 
+- Para **Gazebo** podéis seguir por ejemplo [este tutorial online](https://learn.turtlebot.com/2015/02/03/8/).
+
+Si en vuestra máquina tenéis otro simulador de otro robot instalado (por ejemplo Turtlebot 3) tendréis que buscaros otras referencias ya que las instrucciones anteriores no os servirán directamente (aunque al menos en el caso del Turtlebot 3 encontraréis bastante información).
+
+Como ya se ha dicho, podéis consultar la información de referencia que queráis, sean libros, tutoriales online, videos...siempre que la referenciéis en la documentación.
+
+> Como recomendación general, fijaos en que la biblioteca de la UA tiene disponibles muchos [libros en formato electrónico](https://ua.on.worldcat.org/search?databaseList=1953%2C1931%2C1875%2C1941%2C2259%2C2237%2C3313%2C2375%2C239%2C2570%2C638%2C2260&queryString=ros+robots&clusterResults=true) sobre ROS.
+
+## <a name="apendice_2">Apéndice 2: uso de `rosbag`</a>
 
 El paquete `rosbag` es un conjunto de herramientas para grabar y reproducir topics en ROS. Proporciona una herramienta de línea de comandos llamada `rosbag` para trabajar con *bags*, así como APIs de código para leer/escribir estas grabaciones en C++ y Python.
 
