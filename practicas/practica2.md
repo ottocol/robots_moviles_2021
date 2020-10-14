@@ -116,7 +116,7 @@ Para realizar los requisitos mínimos necesitaréis consultar información adici
 
 Si tenéis el simulador de Turtlebot 2 podéis consultar estas referencias (no es obligatorio usarlas, podéis buscar otras):
 
-- Para localización y mapeado en **Stage** los capítulos 9 y 10 del libro *"Programming Robots with ROS"*, de Quigley, Gerkey y Smart, ed. O'Reilly, 2015. Podéis [consultarlo *online*](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) por medio de los servicios de la biblioteca de la UA. 
+- Para localización y mapeado en **Stage** los capítulos 9 y 10 del libro *"Programming Robots with ROS"*, de Quigley, Gerkey y Smart, ed. O'Reilly, 2015. Podéis [consultarlo *online*](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) por medio de los servicios de la biblioteca de la UA. Si es la primera vez que entráis os preguntará de qué Universidad sois y os pedirá el email de la UA, para poder dar de alta vuestro usuario en el servicio.
 - Para **Gazebo** podéis seguir por ejemplo [este tutorial online](https://learn.turtlebot.com/2015/02/03/8/).
 
 Si en vuestra máquina tenéis otro simulador de otro robot instalado (por ejemplo Turtlebot 3) tendréis que buscaros otras referencias ya que las instrucciones anteriores no os servirán directamente (aunque al menos en el caso del Turtlebot 3 encontraréis bastante información).
