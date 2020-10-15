@@ -52,7 +52,7 @@ Para llevar a cabo el modelado del error tendrás que implementar las dos funcio
 
 > CUIDADO: no debes usar la función `numpy.random.normal`, sino el método de cálculo de la normal que vimos en clase, el objetivo es ver que funciona. Tendrás 0.2 puntos extra si lo demuestras gráficamente (sacando N muestras de `sample_normal_distribution`, representándolas en una gráfica y incluyendo en la memoria la gráfica y el código python usado para generarla)
 
-- En la función `sample_motion_model` debes implementar el algoritmo del mismo nombre que vimos en teoría (transparencia 28 del tema 3, parte I). Cuidado, a diferencia del algoritmo de teoría, que tiene como entrada \\(\delta_{rot1}, \delta_{rot2}, \delta_{trans}\\) la función Python recibe la `Pose` medida por la odometría en el instante actual y en el previo. A partir de estas dos `Pose`s puedes calcular los  \\(\delta\\)  (cómo calcularlos en la transparencia 14 del tema 3 parte I).
+- En la función `sample_motion_model` debes implementar el algoritmo del mismo nombre que vimos en teoría (transparencia 28 del tema 3, parte I). Cuidado, a diferencia del algoritmo de teoría, que tiene como entrada \\(\delta_{rot1}, \delta_{rot2}, \delta_{trans}\\) la función Python recibe la `Pose` medida por la odometría en el instante actual y en el previo. A partir de estas dos `Pose`s puedes calcular los  \\(\delta\\)  (cómo calcularlos en la transparencia "Convertimos la odometría en relativa" del tema 3 parte II).
 
 El programa recibe dos parámetros en línea de comandos:
 
