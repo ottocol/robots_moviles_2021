@@ -89,7 +89,7 @@ def sensor_model(pose_robot, pose_landmark, d, alfa):
     #TODO: falta implementar la función
     return 0
 ```
-Para probarlo haz un programa al que se le pueda pasar 5 argumentos float en línea de comandos con la pose del robot, del landmark, la distancia medida y el ángulo medido (ángulos en grados para que sea más intuitivo) e imprima en la consola la probabilidad.
+Para probarlo haz un programa al que se le pueda pasar argumentos en línea de comandos con la pose del robot, del landmark, la distancia medida y el ángulo medido (ángulos en grados para que sea más intuitivo) e imprima en la consola la probabilidad.
 
 ## Entrega de la práctica
 
