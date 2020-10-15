@@ -71,7 +71,7 @@ En el código debes ajustar los cuatro parámetros de error que vimos en clase d
 
 > Este apartado no podrás realizarlo hasta ver la teoría del día 28 de octubre, en la que explicaremos este modelo.
 
-Implementa el modelo del sensor para un sensor basado en landmarks como el que se ha visto en clase, que detecte la distancia y orientación a un landmark. Supondremos resuelto el problema de la asociación de datos. Tendrás que implementar otro fichero .py con una función `sensor_model` de este estilo:
+Implementa el modelo del sensor para un sensor basado en landmarks como el que se ha visto en clase, que detecte la distancia y orientación a un landmark. Supondremos resuelto el problema de la asociación de datos. Tendrás que implementar otro fichero .py con una función `sensor_model` de este estilo (toma la clase `Pose` de la plantilla de la sección anterior):
 
 ```python
 def sensor_model(pose_robot, pose_landmark, d, alfa):
