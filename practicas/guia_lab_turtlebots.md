@@ -3,7 +3,6 @@
 Los turtlebot llevan a bordo un PC (Intel NUC) en el que está instalado ROS Indigo (excepto el número 5 que tiene Kinetic). Este ordenador tiene conexión wifi, aunque no tiene pantalla. Vamos a necesitar un PC adicional para poder interactuar con el robot.
 
 
-
 ## Conexión "física" con el robot
 
 Lo primero es conectarte a la red inalámbrica local del laboratorio. Hay 3 redes inalámbricas (`labrobot-wifi-5-1`, `labrobot-wifi-5-2`, `labrobot-wifi-2-4`) pero son todas la misma red local (hay 2 redes en 5 G y 1 en 2.4G para dispositivos inalámbricos más antiguos).
@@ -23,7 +22,7 @@ Arranca el robot con el interruptor de la base. Espera un minuto a que arranque 
 
 Resumiendo, hay que definir dos variables de entorno, ROS_MASTER_URI y ROS_HOSTNAME, tanto en el turtlebot como en el PC. Veamos los detalles:
 
-```
+
 ### En el turtlebot
 
 Primero tenemos que conectar mediante `ssh` con el turtlebot:
@@ -63,13 +62,14 @@ roslaunch turtlebot_bringup hokuyo_ust10lx.launch
 ```bash
 export ROS_MASTER_URI=http://<ip del turtlebot>:11311
 export ROS_HOSTNAME=<ip del PC>
-``
+```
 
-## Visualizar los datos en el PC con RViz
+### Visualizar los datos en el PC con RViz
 
 ```bash
 rosrun rviz rviz
 ```
+
 
 Ver el laser:
 
@@ -89,7 +89,7 @@ Hay que tener arrancada la cámara en el turtlebot: `roslaunch astra_launch astr
 Añadir visualización de tipo DepthCloud, cambiar topic a /camera/depth/image. La nube de puntos sale en la ventana principal
 
 
-## Conexión con el robot mediante VNC
+## Conexión con el robot mediante VNC<a name="vnc"></a>
 
 > Recuerda que TODO el código ROS se ejecutará en el robot, y que el PC solo va a hacer de terminal (pantalla/teclado/ratón). Este método no requiere que tengas instalado ROS en tu PC, y no ocupa demasiado ancho de banda. Como inconveniente, no podrás usar la herramienta `rviz`.
  
@@ -125,7 +125,6 @@ Tras la ejecución de estos comandos el robot estará operativo, publicando in
 ```bash
 rostopic list
 ```
-> Si te fijas en el turtlebot simulado verás que no tiene laser y sin embargo también publica un *topic* `/scan`. Esto es porque en la simulación se usa la cámara RGBD como sensor de rango (solo se toma una fila horizontal de pixels). Sin embargo esto no debería afectar a la práctica 1 ya que tu código debería funcionar razonablemente independientemente de la resolución exacta del sensor de rango.
 
 también puedes probar a teleoperar el robot con el teclado para comprobar que se puede mover la base
 
@@ -135,11 +134,22 @@ roslaunch turtlebot_teleop keyboard_teleop.launch
 
 ## Copiar archivos entre el PC y el robot
 
-Una forma de copiar archivos es con la herramienta en línea de comandos `scp`.
+> Como norma general: **NO BORRES NADA DEL ROBOT QUE NO HAYAS PUESTO TU, NI SOBREESCRIBAS NADA** 
 
-El robot tiene un usuario linux que se llama `turtlebot` y cuya contraseña es `ros`. Es el que usaremos en `scp`. CUIDADO: el usuario del turtlebot número 5 es `tb2`, no `turtlebot`
+Si solo quieres probar un código Python simple, en general **te bastará con copiar el fichero `.py`** (no hace falta copiar el *workspace* entero). Si son múltiples archivos también puedes copiar el workspace, pero ***NO LO LLAMES `catkin_ws`, EL ROBOT YA TIENE UN `catkin_ws` creado** 
 
-> Para windows puedes copiar archivos gráficamente con una aplicación llamada [WinSCP](https://winscp.net/eng/docs/lang:es)
+Para las operaciones de copia de archivos se usará el usuario `turtlebot`, cuya contraseña es `ros`, excepto para el turtlebot número 5, cuyo usuario es `tb2`, no `turtlebot`.
+
+
+### Desde Windows
+
+Puedes usar una aplicación llamada [WinSCP](https://winscp.net/eng/docs/lang:es)
+
+### Desde Linux
+
+La mayoría de administradores de archivos de Linux pueden mostrar directorios remotos, prueba a ir al administrador de archivos y en la barra de direcciones a escribir: `ssh://turtlebot@192.168.1.5` **cambia por la IP del robot que tengas, y recuerda que el usuario del nº5 es `tb2` no `turtlebot`**. Te debería pedir la contraseña ("ros") y mostrar el contenido de la carpeta *home* del robot.
+
+Si el administrador de archivos no funciona, puedes también teclear los comandos en la terminal, aunque será algo más tedioso: 
 
 Copiar desde el PC al robot:
 
