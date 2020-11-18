@@ -1,5 +1,6 @@
 # Normas para trabajos en grupo 2020-21
 
+> **La fecha límite de entrega será el 15 de enero de 2021**
 
 ## Normas básicas
 
