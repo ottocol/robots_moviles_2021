@@ -3,6 +3,9 @@
 # Práctica 3. Programación de tareas en robots móviles
 **Robots Móviles. Universidad de Alicante. Noviembre 2020**
 
+
+> Esta práctica se realizará por grupos de 2-3 personas, aunque también podéis hacerla de modo individual si lo preferís
+
 En esta práctica vamos a programar un robot móvil para que realice una tarea "compuesta" que implique navegar por el entorno realizando una serie de subtareas. La tarea puede ser la que queráis, por ejemplo:
 
 - Patrullar por un edificio pasando por diversos puntos y detectando posibles "intrusos"
