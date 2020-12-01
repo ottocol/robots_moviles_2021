@@ -157,6 +157,11 @@ Fíjale un punto y comprueba si calcula una trayectoria razonable y se mueve cor
 
 La práctica se realiza y por tanto se **entrega por grupos**. La memoria la entregará un único miembro del grupo en moodle. En la memoria es donde figurarán los nombres de todos los componentes.
 
+Cada turno tendrá una semana para hacer la práctica:
+
+- L@s que realicéis la práctica el día 2 la podéis entregar hasta el día 8 a las 23:59.
+- L@s que realicéis la práctica el día 9 la podéis entregar hasta el día 15 a las 23:59.
+
 La **memoria** debe incluir:
 
 + 1-2 páginas describiendo los resultados: si son buenos o malos en general, qué diferencias habéis notado con la simulación (si las hay),
