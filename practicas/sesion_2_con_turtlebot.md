@@ -1,9 +1,6 @@
 # Robots Móviles 2020/21. 
 # Sesión 2 con los Turtlebot: Mapeado y localización
 
-COSAS A MIRARME:
-
-
 En esta sesión de trabajo presencial con los Turtlebots vamos a probar los algoritmos de mapeado y localización. Como sabéis solo hay 5 turtlebots por lo que la práctica la tendréis que hacer en grupos.
 
 Los objetivos son:
@@ -20,15 +17,16 @@ En el modo cliente/servidor, el cliente es nuestro PC y el servidor el robot. Ha
 
 Además de que necesitas ROS en tu equipo, lo más importante del modo cliente/servidor es que **en cada terminal que abras, tanto en tu ordenador como en el robot, debes fijar unas variables de entorno para poder trabajar**, lo que es un poco incómodo 😩, pero inevitable. Tenemos un *script* que lo hace por nosotros pero hay que acordarse de llamarlo en cada terminal.
 
-1. Descarga el *script* [setvars.sh](setvars.sh) que fijará las variables de entorno necesarias para la comunicación cliente/servidor
-2. **Conectad el PC del laboratorio con la red wifi** del laboratorio, recuerda que el nombre comienza por "labrobot". 
+1. Descarga el *script* [setvars.sh](setvars.sh) que fijará las variables de entorno necesarias para la comunicación cliente/servidor.
+2. **Conecta el PC del laboratorio con la red wifi** del laboratorio, recuerda que el nombre comienza por "labrobot". Usa a ser posible las que llevan un 5 en el nombre, son las de 5Ghz y deberían tener un mayor ancho de banda.
 3. Abre una terminal de linux y en ella **conecta con el robot** como hacíamos hasta ahora:
     - `ssh turtlebot@ip_del_robot` (en el robot 5 es `ssh tb2@ip_del_robot`), la contraseña es `ros`.
     - Recuerda que el turtlebot 1 es la `192.168.1.5` y así sucesivamente hasta el 5 que es la `192.168.1.9`.
     - En la terminal del robot teclea `source setvars.sh` para fijar las variables de entorno. **Siempre tendrás que hacer esto en cada nueva terminal que abras** (el `setvars.sh` del robot no es el que te has bajado en el paso 1, es uno ya copiado en el robot y adaptado a él).
     - Si necesitas más terminales conectadas al turtlebot (y las necesitarás) tendrás que repetir todo lo del paso 3 de nuevo
     - En esta terminal arranca el robot y el laser: 
-      ```
+    
+      ```bash
       #El & se pone para que puedas arrancar ambos desde la misma terminal
       roslaunch turtlebot_bringup minimal.launch & 
       roslaunch turtlebot_bringup hokuyo_ust10lx.launch
@@ -36,17 +34,18 @@ Además de que necesitas ROS en tu equipo, lo más importante del modo cliente/s
 
 4. Abre otra terminal de linux para **trabajar en tu PC**, y en ella escribe `source setvars.sh numero_del_robot` para fijar las variables de entorno, **por ejemplo `source setvars.sh 1`** para el robot número 1.
     - Si necesitas más terminales para trabajar en tu PC tendrás que ejecutar en ellas el `source setvars.sh numero_del_robot` antes de escribir comandos de ROS
-5. Para comprobar que todo está OK, en la terminal abierta en el paso anterior haz un `rostopic list`. Deberían aparecer los *topics* del ROS que está corriendo en el robot, entre ellos los de `/mobile_base`, el `/scan`, etc.
+5. Para comprobar que todo está OK, en la terminal abierta en el PC haz un `rostopic list`. Deberían aparecer los *topics* del ROS que está corriendo en el robot, entre ellos los de `/mobile_base`, el `/scan`, etc.
 
 ## Pruebas con RViz. Visualización de los sensores
 
-En modo cliente/servidor sí que se puede usar RViz.
+En modo cliente/servidor sí que se puede usar RViz, a diferencia de VNC (lo que usábamos hasta ahora para conectar con los robots).
+
+> Recuerda que **SIEMPRE, en todas las terminales, debes hacer antes el `source setvars.sh numero_de_robot` si la terminal es local al PC (no es un `ssh`) y `source setvars.sh` si está conectada al robot (es un `ssh`)**. A partir de ahora no lo pondremos más, pero recuerda que hay que hacerlo igualmente.
+
 
 En una **terminal en tu PC** ejecuta RViz con `rosrun rviz rviz`. 
 
-> Recuerda que **SIEMPRE, en todas las terminales**, debes hacer antes el `source setvars.sh numero_de_robot` si la terminal es local al PC (no es un `ssh`) y `source setvars.sh` si está conectada al robot (es un `ssh`)
-
-> Aparecerá un error de `fixed frame` en Global Options,  (el origen de coordenadas está puesto a `map`, pero de momento no hay un mapa). **Cambiar el `fixed frame` a otro, Por ejemplo a `odom`**. Así usará como origen el punto (0,0,0) de la odometría.
+> Aparecerá un error de `fixed frame` en Global Options,  (el origen de coordenadas está puesto a `map`, pero de momento no hay un mapa). **Cambiar el `fixed frame` a `odom`**. Así usará como origen el punto (0,0,0) de la odometría.
 
 ### Visualizar el laser
 
@@ -54,7 +53,32 @@ Añadir una visualización para el laser (botón `Add` abajo a la izquierda > en
 
 Puedes probar a mover el robot para ver cómo cambian las lecturas. **En una terminal en el PC** lanza el `roslaunch turtlebot_teleop keyboard_teleop`. Recuerda que esta ventana tiene que tener el foco del teclado para que funcione.
 
-> Captura una pantalla en la que se vean las lecturas del laser (o haz una foto) y luego con algún programa gráfico señala qué es lo que estaba "percibiendo" el robot en cada zona (poniendo un texto en cada zona que diga por ejemplo "pared", "mesa", "persona",...). Adjúntalo a la documentación de la práctica.
+> Captura una pantalla en la que se vean las lecturas del laser (o haz una foto a la pantalla) y luego con algún programa gráfico señala qué es lo que estaba "percibiendo" el robot en cada zona (poniendo un texto en cada zona que diga por ejemplo "pared", "mesa", "persona",...). Adjúntalo a la documentación de la práctica.
+
+### Visualizar la cámara Astra
+
+La cámara Astra que llevan los robots es una cámara RGBD al estilo Kinect, de la que podemos obtener tanto una imagen RGB de 640x480 como una nube de puntos 3D. **En una terminal en el robot** pon en marcha la cámara Astra:
+
+```bash
+roslaunch astra_launch astra.launch`
+```
+
+#### Para ver la imagen RGB:
+
+En RViz:
+
+-  botón `Add` abajo a la izquierda > en el listado `By Display Type` seleccionar `Camera`
+-  Una vez añadida, en el panel de la izquierda cambiar su `topic` a `/camera/rgb/image_raw`
+
+#### Para ver la nube de puntos 3D:
+
+En RViz:
+
+- botón `Add` abajo a la izquierda > en el listado `By Display Type` seleccionar `DepthCloud`, 
+- Una vez añadida, en el panel de la izquierda cambiar su `topic` a `/camera/depth/image`. 
+
+Captura una pantalla en la que se vea la imagen RGB y la nube de puntos asociada (o haz una foto a la pantalla). Adjúntalo a la documentación de la práctica.
+
 
 ## Mapeado con teleoperación
 
@@ -88,9 +112,16 @@ Cuando lo tengas suficientemente completo, en una *terminal del robot* guárdalo
 rosrun map_server map_saver -f nombre_que_quieras_dar_al_mapa
 ```
 
+Recuerda que se crean dos ficheros, uno con extensión `.pgm`, que es el gráfico con el mapa en sí y otro con extensión `.yaml` que son los metadatos (tamaño en metros del total, tamaño en metros de cada pixel,...).
+
 si quieres tener también una copia del mapa en el PC puedes hacer lo mismo en una terminal del PC, pero al menos deberías guardarlo en el robot, ya que luego hará falta para la localización.
 
-Recuerda que se crean dos ficheros, uno con extensión `.pgm`, que es el gráfico con el mapa en sí y otro con extensión `.yaml` que son los metadatos (tamaño en metros del total, tamaño en metros de cada pixel,...).
+> Si quieres copiar algún archivo del robot al PC también puedes teclear **en una terminal del PC** (y en este caso no te hace falta previamente el `source setvars`)
+> 
+> ```bash
+#FIJATE en el '.' del final, esto hace que se copie en la carpeta actual
+scp turtlebot@IP_del_robot:~/mi_archivo_el_que_sea .
+```
 
 ## Localización
 
@@ -128,10 +159,11 @@ La práctica se realiza y por tanto se **entrega por grupos**. La memoria la ent
 
 La **memoria** debe incluir:
 
-+ 1-2 páginas describiendo los resultados: si son buenos o malos en general, qué diferencias habéis notado con la simulación (si las hay), 
++ 1-2 páginas describiendo los resultados: si son buenos o malos en general, qué diferencias habéis notado con la simulación (si las hay),
+    + imágenes con la visualización del laser y de la cámara RGB/nube de puntos.
     + mapeado: poned una imagen del/los mapa/s, qué partes del mapa han salido mejor/peor, qué partes del laboratorio/mobiliario ha detectado mejor/peor el sensor... (y por qué puede ser, si se os ocurre), 
     +  localización: qué tal ha funcionado, si se pierde el robot en algún momento....
-    +  navegación autónoma: qué tal ha funcionado, ¿llega el robot al destino? ¿choca con algún obstáculo imprevisto?
+    +  navegación autónoma: qué tal ha funcionado, ¿llega el robot al destino? evita los obstáculos imprevistos?
 + Los archivos con el mapa generado durante la sesión  (.pgm y .yaml) (si hacéis más de una prueba, incluid todos los mapas generados).
 + Para la localización, un video de rviz que muestre al robot navegando por el entorno y actualizando su posición (podéis filmarlo con un móvil para que se vea rviz y también dónde está el robot en el mundo real). 
 
