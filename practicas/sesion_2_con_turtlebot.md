@@ -55,31 +55,6 @@ Puedes probar a mover el robot para ver cómo cambian las lecturas. **En una ter
 
 > Captura una pantalla en la que se vean las lecturas del laser (o haz una foto a la pantalla) y luego con algún programa gráfico señala qué es lo que estaba "percibiendo" el robot en cada zona (poniendo un texto en cada zona que diga por ejemplo "pared", "mesa", "persona",...). Adjúntalo a la documentación de la práctica.
 
-### Visualizar la cámara Astra
-
-La cámara Astra que llevan los robots es una cámara RGBD al estilo Kinect, de la que podemos obtener tanto una imagen RGB de 640x480 como una nube de puntos 3D. **En una terminal en el robot** pon en marcha la cámara Astra:
-
-```bash
-roslaunch astra_launch astra.launch`
-```
-
-#### Para ver la imagen RGB:
-
-En RViz:
-
--  botón `Add` abajo a la izquierda > en el listado `By Display Type` seleccionar `Camera`
--  Una vez añadida, en el panel de la izquierda cambiar su `topic` a `/camera/rgb/image_raw`
-
-#### Para ver la nube de puntos 3D:
-
-En RViz:
-
-- botón `Add` abajo a la izquierda > en el listado `By Display Type` seleccionar `DepthCloud`, 
-- Una vez añadida, en el panel de la izquierda cambiar su `topic` a `/camera/depth/image`. 
-
-Captura una pantalla en la que se vea la imagen RGB y la nube de puntos asociada (o haz una foto a la pantalla). Adjúntalo a la documentación de la práctica.
-
-
 ## Mapeado con teleoperación
 
 Quita el RViz, ya que vamos a ponerlo en marcha con una configuración nueva.
