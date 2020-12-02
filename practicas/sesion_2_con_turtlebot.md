@@ -107,6 +107,7 @@ Una vez guardado el mapa, interrumpe el gmapping_demo.launch que tenías funcion
 En una **terminal conectada con el robot** haz: 
 
 ```bash
+export TURTLEBOT_3D_SENSOR=astra
 roslaunch turtlebot_navigation amcl_demo.launch map_file:=fichero_mapa.yaml
 ```
 
