@@ -11,7 +11,7 @@ Los objetivos son:
 
 ## Conexión con el robot
 
-> **IMPORTANTE**: en este modo de conexión que usaremos hoy **necesitáis ROS Kinetic en el PC. Lo mejor es que uséis los equipos de los laboratorios. Usad los ordenadores 1,4,8,11 y 15, que tienen conexión wifi**. 
+> **IMPORTANTE**: en este modo de conexión que usaremos hoy **necesitáis ROS Kinetic en el PC. Lo mejor es que uséis los equipos de los laboratorios. Usad los ordenadores 3,4,8,11 y 15, que tienen conexión wifi**. 
 
 En el modo cliente/servidor, el cliente es nuestro PC y el servidor el robot. Hay algunos nodos de ROS que deben correr en el servidor (por ejemplo el `turtlebot_bringup.launch`) y otros en nuestro PC (por ejemplo `RViz`). En otros es indiferente.
 
@@ -146,7 +146,7 @@ Cada turno tendrá una semana para hacer la práctica:
 La **memoria** debe incluir:
 
 + 1-2 páginas describiendo los resultados: si son buenos o malos en general, qué diferencias habéis notado con la simulación (si las hay),
-    + imágenes con la visualización del laser y de la cámara RGB/nube de puntos.
+    + imágenes con la visualización del laser.
     + mapeado: poned una imagen del/los mapa/s, qué partes del mapa han salido mejor/peor, qué partes del laboratorio/mobiliario ha detectado mejor/peor el sensor... (y por qué puede ser, si se os ocurre), 
     +  localización: qué tal ha funcionado, si se pierde el robot en algún momento....
     +  navegación autónoma: qué tal ha funcionado, ¿llega el robot al destino? evita los obstáculos imprevistos?
