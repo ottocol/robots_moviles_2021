@@ -24,11 +24,14 @@ Además de que necesitas ROS en tu equipo, lo más importante del modo cliente/s
     - Recuerda que el turtlebot 1 es la `192.168.1.5` y así sucesivamente hasta el 5 que es la `192.168.1.9`.
     - En la terminal del robot teclea `source setvars.sh` para fijar las variables de entorno. **Siempre tendrás que hacer esto en cada nueva terminal que abras** (el `setvars.sh` del robot no es el que te has bajado en el paso 1, es uno ya copiado en el robot y adaptado a él).
     - Si necesitas más terminales conectadas al turtlebot (y las necesitarás) tendrás que repetir todo lo del paso 3 de nuevo
-    - En esta terminal arranca el robot y el laser: 
+    - En esta terminal arranca el robot: 
     
       ```bash
-      #El & se pone para que puedas arrancar ambos desde la misma terminal
-      roslaunch turtlebot_bringup minimal.launch & 
+      roslaunch turtlebot_bringup minimal.launch
+      ```
+    - En otra terminal del robot arranca el laser 
+     
+      ```bash
       roslaunch turtlebot_bringup hokuyo_ust10lx.launch
       ```
 
