@@ -56,7 +56,7 @@ Añadir una visualización para el laser (botón `Add` abajo a la izquierda > en
 
 Para ver en RViz a dónde está mirando el robot puedes añadir sus ejes de coordenadas: botón `Add` abajo a la izquierda > en el listado `By Display Type` seleccionar `Axes`. Una vez añadido, en el panel de la izquierda desplegar el `Axes` y cambiar el Reference frame` a `base_link`. El eje rojo es el X, que apunta hacia el frente. 
 
-Puedes probar a mover el robot para ver cómo cambian las lecturas. **En una terminal en el PC** lanza el `roslaunch turtlebot_teleop keyboard_teleop`. Recuerda que esta ventana tiene que tener el foco del teclado para que funcione.
+Puedes probar a mover el robot para ver cómo cambian las lecturas. **En una terminal en el PC** lanza el `roslaunch turtlebot_teleop keyboard_teleop.launch`. Recuerda que esta ventana tiene que tener el foco del teclado para que funcione.
 
 > **Captura una pantalla en la que se vean las lecturas del laser (o haz una foto a la pantalla)** y luego con algún programa gráfico señala qué es lo que estaba "percibiendo" el robot en cada zona (poniendo un texto en cada zona que diga por ejemplo "pared", "mesa", "persona",...). Adjúntalo a la documentación de la práctica.
 
